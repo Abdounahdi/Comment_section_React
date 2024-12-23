@@ -19,7 +19,7 @@ let data = {
       content:
         "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       createdAt: "1 month ago",
-      score:12,
+      score: 12,
       user: {
         image: {
           png: "./images/avatars/image-amyrobson.png",
@@ -76,65 +76,76 @@ let data = {
       ],
     },
   ],
-}
+};
 // console.log(Data);
 
 //SEP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export default function App() {
-  const [usersData , setUsersData] = useState(data.comments) ;
-  console.log(usersData)
+  const [usersData, setUsersData] = useState(data.comments);
+  console.log(usersData);
   return (
     <div className="comment_section">
       <div className="comments_container">
-        {usersData.sort((a, b) => b.score - a.score).map((comment) => (
-          <div className="comment_replies-container" key={comment.id}>
-            <Comment>
-              <Score score={comment.score} onChangeScore={setUsersData} id={comment.id} />
+        {usersData
+          .sort((a, b) => b.score - a.score)
+          .map((comment) => (
+            <div className="comment_replies-container" key={comment.id}>
+              <Comment>
+                <Score
+                  score={comment.score}
+                  onChangeScore={setUsersData}
+                  id={comment.id}
+                />
 
-              <CommentInner>
-                <CommentHeader
-                  comment={comment}
-                  currentUser={data.currentUser}
-                >
-                  {comment.user.username === data.currentUser.username ? (
-                    <UserBtns />
-                  ) : (
-                    <ReplyBtn />
-                  )}
-                </CommentHeader>
+                <CommentInner>
+                  <CommentHeader
+                    comment={comment}
+                    currentUser={data.currentUser}
+                  >
+                    {comment.user.username === data.currentUser.username ? (
+                      <UserBtns />
+                    ) : (
+                      <ReplyBtn />
+                    )}
+                  </CommentHeader>
 
-                <p className="comment_text">{comment.content}</p>
-              </CommentInner>
-            </Comment>
+                  <p className="comment_text">{comment.content}</p>
+                </CommentInner>
+              </Comment>
 
-            <RepliesContainer>
-              {comment.replies.sort((a, b) => b.score - a.score).map((reply) => (
-                <Comment key={reply.id}>
-                  <Score score={reply.score} onChangeScore={setUsersData} id={reply.id} />
+              <RepliesContainer>
+                {comment.replies
+                  .sort((a, b) => b.score - a.score)
+                  .map((reply) => (
+                    <Comment key={reply.id}>
+                      <Score
+                        score={reply.score}
+                        onChangeScore={setUsersData}
+                        id={reply.id}
+                      />
 
-                  <CommentInner>
-                    <CommentHeader
-                      comment={reply}
-                      currentUser={data.currentUser}
-                    >
-                      {reply.user.username ===
-                      data.currentUser.username ? (
-                        <UserBtns />
-                      ) : (
-                        <ReplyBtn />
-                      )}
-                    </CommentHeader>
+                      <CommentInner>
+                        <CommentHeader
+                          comment={reply}
+                          currentUser={data.currentUser}
+                        >
+                          {reply.user.username === data.currentUser.username ? (
+                            <UserBtns />
+                          ) : (
+                            <ReplyBtn />
+                          )}
+                        </CommentHeader>
 
-                    <p className="comment_text">{reply.content}</p>
-                  </CommentInner>
-                </Comment>
-              ))}
-            </RepliesContainer>
-          </div>
-        ))}
+                        <p className="comment_text">{reply.content}</p>
+                      </CommentInner>
+                    </Comment>
+                  ))}
+              </RepliesContainer>
+            </div>
+          ))}
       </div>
-      <AddComment currentUser={data.currentUser} />
+      <AddComment currentUser={data.currentUser} onAddComment={setUsersData} />
     </div>
   );
 }

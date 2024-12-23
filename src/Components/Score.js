@@ -1,4 +1,5 @@
 export function Score({ score, onChangeScore, id }) {
+  
   function handleAddScore() {
     onChangeScore((comments) =>
       comments.map((comment) =>
@@ -15,7 +16,24 @@ export function Score({ score, onChangeScore, id }) {
       return { ...comment, replies: newReplies };
     }
   }
-  function handleMinusScore() {}
+
+  function handleMinusScore() {
+    onChangeScore((comments) =>
+      comments.map((comment) =>
+        comment.id === id
+          ? { ...comment, score: comment.score - 1 }
+          : hachem(comment)
+      )
+    );
+
+    function hachem(comment) {
+      let newReplies = comment.replies.map((reply) =>
+        reply.id === id ? { ...reply, score: reply.score - 1 } : { ...reply }
+      );
+      return { ...comment, replies: newReplies };
+    }
+  }
+
   return (
     <div className="score">
       <button className="plus_btn" onClick={handleAddScore}>
