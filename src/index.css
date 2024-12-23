@@ -1,13 +1,484 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  font-size: 62.5%;
+  transition: all 0.4s;
+}
+
+body {
+  font-family: "Maven Pro", sans-serif;
+  line-height: 1;
+  background-color: hsl(223, 19%, 93%);
+}
+
+.comment_section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 70rem;
+  margin: 6rem auto;
+}
+@media (max-width: 760px) {
+  .comment_section {
+    width: 90%;
+  }
+}
+.comment_section .comments_container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 70rem;
+}
+@media (max-width: 760px) {
+  .comment_section .comments_container {
+    width: 100%;
+  }
+}
+.comment_section .comments_container .comment {
+  background-color: hsl(0, 0%, 100%);
+  display: flex;
+  align-items: start;
+  gap: 2.5rem;
+  overflow: hidden;
+  padding: 2.5rem;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 2.6px;
+  transition: all 0.6s;
+}
+@media (max-width: 650px) {
+  .comment_section .comments_container .comment {
+    padding-bottom: 7rem;
+    position: relative;
+  }
+}
+.comment_section .comments_container .comment .score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 4rem;
+  background-color: hsl(223, 19%, 93%);
+  padding: 1.1rem 0.8rem;
+  border-radius: 0.7rem;
+  font-size: 1.6rem;
+  color: hsl(238, 40%, 52%);
+  font-weight: 600;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.comment_section .comments_container .comment .score button {
+  border: none;
+  cursor: pointer;
+}
+@media (max-width: 650px) {
+  .comment_section .comments_container .comment .score {
+    position: absolute;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    bottom: 1.8rem;
+  }
+  .comment_section .comments_container .comment .score .minus_btn {
+    display: flex;
+    align-items: center;
+  }
+}
+.comment_section .comments_container .comment .comment_inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  position: relative;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .comment_inner-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.6rem;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .comment_inner-details
+  .comment_username {
+  color: black;
+  font-weight: 600;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .comment_inner-details
+  .comment_time {
+  color: hsl(211, 10%, 45%);
+}
+@media (max-width: 760px) {
+  .comment_section
+    .comments_container
+    .comment
+    .comment_inner
+    .comment_inner-header
+    .comment_inner-details
+    .comment_time {
+    font-size: 1.4rem;
+  }
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .comment_inner-details
+  .current_user-endicator {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(238, 40%, 52%);
+  font-size: 1.3rem;
+  padding: 0.1rem 0.5rem 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .btn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: none;
+  border: none;
+  color: hsl(238, 40%, 52%);
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+@media (max-width: 650px) {
+  .comment_section
+    .comments_container
+    .comment
+    .comment_inner
+    .comment_inner-header
+    .reply_btn {
+    position: absolute;
+    bottom: -4rem;
+    right: -0.5rem;
+  }
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .btns_container {
+  display: flex;
+  gap: 1.8rem;
+  transition: all 0.3s;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_inner-header
+  .btns_container
+  .delete_btn {
+  color: hsl(358, 79%, 66%);
+}
+@media (max-width: 650px) {
+  .comment_section
+    .comments_container
+    .comment
+    .comment_inner
+    .comment_inner-header
+    .btns_container {
+    position: absolute;
+    bottom: -4.2rem;
+    right: -0.4rem;
+  }
+}
+.comment_section .comments_container .comment .comment_inner .comment_text {
+  font-size: 1.5rem;
+  color: hsl(211, 10%, 45%);
+  line-height: 2rem;
+}
+.comment_section
+  .comments_container
+  .comment
+  .comment_inner
+  .comment_text
+  .reply_tag {
+  color: hsl(238, 40%, 52%);
+  font-weight: 600;
+}
+.comment_section .comments_container .comment_replies-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.comment_section
+  .comments_container
+  .comment_replies-container
+  .replies_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  border-left: solid 1px hsl(239, 57%, 85%);
+  padding: 0 0 0 4rem;
+  margin-left: 4.2rem;
+}
+@media (max-width: 760px) {
+  .comment_section
+    .comments_container
+    .comment_replies-container
+    .replies_container {
+    margin-left: 1.2rem;
+    padding-left: 1.5rem;
+  }
+}
+.comment_section .add_comment {
+  display: flex;
+  align-items: start;
+  gap: 1.5rem;
+  background-color: hsl(0, 0%, 100%);
+  padding: 2.5rem;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 2.6px;
+}
+@media (max-width: 650px) {
+  .comment_section .add_comment {
+    position: relative;
+    padding-bottom: 7rem;
+  }
+}
+.comment_section .add_comment .send_comment-btn {
+  background-color: hsl(238, 40%, 52%);
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  color: hsl(0, 0%, 100%);
+  font-weight: 500;
+  cursor: pointer;
+}
+@media (max-width: 650px) {
+  .comment_section .add_comment .send_comment-btn {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+@media (max-width: 650px) {
+  .comment_section .add_comment img {
+    position: absolute;
+    bottom: 2rem;
+  }
+}
+.comment_section .write_reply {
+  transition: all 0.5s;
+  transform: translate(0, -4rem);
+  opacity: 0;
+}
+.comment_section img {
+  height: 3.5rem;
+}
+
+.input_comment {
+  resize: none;
+  width: 100%;
+  height: 10rem;
+  border: none;
+  border: 1px solid hsl(223, 19%, 93%);
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  font-size: 1.6rem;
+  font-family: inherit;
+}
+
+.delete_modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  position: sticky;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(0%, 50%);
+}
+.delete_modal-container .delete-modal {
+  position: absolute;
+  padding: 2.4rem;
+  background-color: hsl(0, 0%, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-radius: 1rem;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
+  width: 40rem;
+  font-size: 16px;
+  color: hsl(211, 10%, 45%);
+}
+@media (max-width: 450px) {
+  .delete_modal-container .delete-modal {
+    width: 30rem;
+  }
+}
+.delete_modal-container .delete-modal .delete-modal--inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.delete_modal-container
+  .delete-modal
+  .delete-modal--inner
+  .delete_modal-heading {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: hsl(212, 24%, 26%);
+}
+.delete_modal-container .delete-modal .delete_btns-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+@media (max-width: 450px) {
+  .delete_modal-container .delete-modal .delete_btns-container {
+    flex-direction: column;
+  }
+}
+.delete_modal-container .delete-modal .delete_btns-container .no_btn {
+  transition: all 0.4s;
+  background-color: hsl(211, 10%, 45%);
+  color: hsl(0, 0%, 100%);
+  padding: 1.5rem 2.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+}
+.delete_modal-container .delete-modal .delete_btns-container .no_btn:hover,
+.delete_modal-container .delete-modal .delete_btns-container .no_btn:active {
+  box-shadow: hsla(211, 10.1123595506%, 44.5%, 0.287) 3px 3px 3px;
+  transform: scale(1.05);
+}
+.delete_modal-container .delete-modal .delete_btns-container .yes_btn {
+  background-color: hsl(358, 79%, 66%);
+  color: hsl(0, 0%, 100%);
+  padding: 1.5rem 2.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+.delete_modal-container .delete-modal .delete_btns-container .yes_btn:hover,
+.delete_modal-container .delete-modal .delete_btns-container .yes_btn:active {
+  box-shadow: hsla(358, 79%, 66%, 0.536) 3px 3px 3px;
+  transform: scale(1.05);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.plus_score-svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.minus_score-svg {
+  width: 1.1rem;
+  height: 0.3rem;
+}
+
+.reply-svg {
+  width: 1.4rem;
+  height: 1.3rem;
+}
+
+.delete-svg {
+  width: 1.2rem;
+  height: 1.4rem;
+}
+
+.edit-svg {
+  width: 1.4rem;
+  height: 1.4rem; /* qaq */
+}
+
+.hidden {
+  display: none;
+}
+
+.sumbit_btn {
+  background-color: hsl(238, 40%, 52%);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  color: hsl(0, 0%, 100%);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+textarea::placeholder {
+  font-style: italic;
+}
+
+.reply {
+  transition: all 0.9s;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+.apply-shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
