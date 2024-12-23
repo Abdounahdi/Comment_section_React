@@ -1,13 +1,21 @@
-import { useState } from "react";
-
-export function Score({ score , onChangeScore }) {
-  const [count, setCount] = useState(score);
+export function Score({ score, onChangeScore, id }) {
   function handleAddScore() {
-    setCount((count) => count+1);
+    onChangeScore((comments) =>
+      comments.map((comment) =>
+        comment.id === id
+          ? { ...comment, score: comment.score + 1 }
+          : hachem(comment)
+      )
+    );
+
+    function hachem(comment) {
+      let newReplies = comment.replies.map((reply) =>
+        reply.id === id ? { ...reply, score: reply.score + 1 } : { ...reply }
+      );
+      return { ...comment, replies: newReplies };
+    }
   }
-  function handleMinusScore() {
-    setCount((count) => count-1);
-  }
+  function handleMinusScore() {}
   return (
     <div className="score">
       <button className="plus_btn" onClick={handleAddScore}>
@@ -18,7 +26,7 @@ export function Score({ score , onChangeScore }) {
           ></path>
         </svg>
       </button>
-      <p className="score_number">{count}</p>
+      <p className="score_number">{score}</p>
       <button className="minus_btn" onClick={handleMinusScore}>
         <svg className="minus_score-svg" xmlns="http://www.w3.org/2000/svg">
           <path

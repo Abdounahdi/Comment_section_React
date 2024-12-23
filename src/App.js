@@ -5,7 +5,7 @@ import { ReplyBtn } from "./Components/ReplyBtn";
 import { UserBtns } from "./Components/UserBtns";
 import { useState } from "react";
 
-let Data = {
+let data = {
   currentUser: {
     image: {
       png: "./images/avatars/image-juliusomo.png",
@@ -77,26 +77,27 @@ let Data = {
     },
   ],
 }
-console.log(Data);
+// console.log(Data);
 
 //SEP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export default function App() {
-  const [usersData , setUsersData] = useState(Data) ;
+  const [usersData , setUsersData] = useState(data.comments) ;
+  console.log(usersData)
   return (
     <div className="comment_section">
       <div className="comments_container">
-        {usersData.comments.sort((a, b) => b.score - a.score).map((comment) => (
+        {usersData.sort((a, b) => b.score - a.score).map((comment) => (
           <div className="comment_replies-container" key={comment.id}>
             <Comment>
-              <Score score={comment.score} onChangeScore={setUsersData} />
+              <Score score={comment.score} onChangeScore={setUsersData} id={comment.id} />
 
               <CommentInner>
                 <CommentHeader
                   comment={comment}
-                  currentUser={usersData.currentUser}
+                  currentUser={data.currentUser}
                 >
-                  {comment.user.username === usersData.currentUser.username ? (
+                  {comment.user.username === data.currentUser.username ? (
                     <UserBtns />
                   ) : (
                     <ReplyBtn />
@@ -110,15 +111,15 @@ export default function App() {
             <RepliesContainer>
               {comment.replies.sort((a, b) => b.score - a.score).map((reply) => (
                 <Comment key={reply.id}>
-                  <Score score={reply.score} />
+                  <Score score={reply.score} onChangeScore={setUsersData} id={reply.id} />
 
                   <CommentInner>
                     <CommentHeader
                       comment={reply}
-                      currentUser={usersData.currentUser}
+                      currentUser={data.currentUser}
                     >
                       {reply.user.username ===
-                      usersData.currentUser.username ? (
+                      data.currentUser.username ? (
                         <UserBtns />
                       ) : (
                         <ReplyBtn />
@@ -133,7 +134,7 @@ export default function App() {
           </div>
         ))}
       </div>
-      <AddComment currentUser={usersData.currentUser} />
+      <AddComment currentUser={data.currentUser} />
     </div>
   );
 }
