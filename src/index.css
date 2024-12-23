@@ -144,6 +144,18 @@ body {
     font-size: 1.4rem;
   }
 }
+
+@media (max-width: 320px) {
+  .comment_section
+    .comments_container
+    .comment
+    .comment_inner
+    .comment_inner-header
+    .comment_inner-details
+    .comment_time {
+    display: none;
+  }
+}
 .comment_section
   .comments_container
   .comment
@@ -214,6 +226,20 @@ body {
     .btns_container {
     position: absolute;
     bottom: -4.2rem;
+    right: -0.4rem;
+  }
+}
+@media (max-width: 320px) {
+  .comment_section
+    .comments_container
+    .comment
+    .comment_inner
+    .comment_inner-header
+    .btns_container {
+    position: absolute;
+    flex-direction: column;
+    gap: 0.2rem;
+    bottom: -5.2rem;
     right: -0.4rem;
   }
 }
