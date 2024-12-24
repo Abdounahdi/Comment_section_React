@@ -2,12 +2,41 @@ import { AddComment } from "./Components/AddComment";
 import { CommentHeader } from "./Components/CommentHeader";
 import { Score } from "./Components/Score";
 import { ReplyBtn } from "./Components/ReplyBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditCommentBtn } from "./Components/UserBtns";
 import { OpenDeleteModalBtn } from "./Components/DeleteModal";
-import { KeepCommentBtn } from "./KeepCommentBtn";
+import { KeepCommentBtn } from "./Components/KeepCommentBtn";
 import { DeleteCommentBtn } from "./Components/UserBtns";
 import { DeleteModal } from "./Components/DeleteModal";
+import { CommentContent } from "./Components/CommentContent";
+
+// import TimeAgo from "javascript-time-ago";
+// import ReactTimeAgo from "react-time-ago";
+
+// import en from "javascript-time-ago/locale/en";
+// import ru from "javascript-time-ago/locale/ru";
+
+// TimeAgo.addDefaultLocale(en);
+// TimeAgo.addLocale(ru);
+
+// const CommentTime = () => {
+//   const MINUTE_MS = 60000;
+//   let countMinutes = 1000;
+//   let count = 1;
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       countMinutes *= 60 * count;
+//       count++;
+//     }, MINUTE_MS);
+
+//     return () => clearInterval(interval);
+//   }, [countMinutes]);
+
+//   const targetDate = new Date() - countMinutes;
+
+//   return <ReactTimeAgo date={targetDate} locale="en-US" />;
+// };
 
 let data = {
   currentUser: {
@@ -153,6 +182,7 @@ export default function App() {
                     commentId={addReply}
                     onAdded={setAddReply}
                     replyTo={comment.user.username}
+                    // CommentTime={CommentTime}
                   />
                 ) : (
                   ""
@@ -214,6 +244,7 @@ export default function App() {
         <AddComment
           currentUser={data.currentUser}
           onAddComment={setUsersData}
+          // CommentTime={CommentTime}
         />
       </div>
       {toDelete ? (
@@ -244,53 +275,4 @@ function CommentInner({ children }) {
 
 function RepliesContainer({ children }) {
   return <div className="replies_container">{children}</div>;
-}
-
-function CommentContent({
-  comment,
-  id,
-  isReply = false,
-  updateComment,
-  username,
-  setCheck,
-}) {
-  let text = comment.content;
-  return !(id === comment.id) ? (
-    <p className="comment_text">
-      {isReply ? <span className="reply_tag"> @ {username} </span> : ""}
-      {comment.content}
-    </p>
-  ) : (
-    <textarea
-      name="input"
-      className="input_comment"
-      placeholder="Add a comment..."
-      defaultValue={text}
-      onChange={(e) => {
-        text = e.target.value.trim().length !== 0 ? e.target.value : "" ;
-        setCheck(text!== "")
-        updateComment((comments) =>
-          comments.map((Comment) => {
-            if (Comment.id === comment.id) {
-              return { ...Comment, content: text };
-            } else {
-              return {
-                ...Comment,
-                replies: Comment.replies.map((reply) => {
-                  if (reply.id === id) {
-                    return { ...reply, content: text };
-                  } else {
-                    return reply;
-                  }
-                }),
-              };
-            }
-          })
-        );
-        // console.log(updatedContent);
-      }}
-    />
-    //   {comment.content}
-    // </textarea>
-  );
 }

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export function AddComment({
   currentUser,
   onAddComment,
@@ -5,7 +7,11 @@ export function AddComment({
   commentId,
   onAdded,
   replyTo,
+  CommentTime,
 }) {
+
+  const [commentContent, setCommentContent] = useState("");
+
   function handleAddComment(commentContent) {
     if (commentContent && commentContent.trim().length !== 0) {
       if (!isReply) {
@@ -13,7 +19,7 @@ export function AddComment({
           ...comments,
           {
             id: Date.now(),
-            content: commentContent,
+            content: commentContent.trim(),
             createdAt: `Today at ${new Date()
               .getHours()
               .toString()
@@ -21,6 +27,7 @@ export function AddComment({
               .getMinutes()
               .toString()
               .padEnd(2, "0")}`,
+            // createdAt: <CommentTime />,
             score: 0,
             user: currentUser,
             replies: [],
@@ -36,7 +43,7 @@ export function AddComment({
                   ...comment.replies,
                   {
                     id: Date.now(),
-                    content: commentContent,
+                    content: commentContent.trim(),
                     createdAt: `Today at ${new Date()
                       .getHours()
                       .toString()
@@ -44,6 +51,7 @@ export function AddComment({
                       .getMinutes()
                       .toString()
                       .padEnd(2, "0")}`,
+                    // createdAt: <CommentTime />,
                     score: 0,
                     user: currentUser,
                   },
@@ -56,10 +64,9 @@ export function AddComment({
         );
         onAdded(null);
       }
+      setCommentContent("");
     }
   }
-
-  let commentContent;
 
   return (
     <div className="add__comment">
@@ -70,11 +77,10 @@ export function AddComment({
           className="input_comment"
           placeholder={isReply ? `Reply to ${replyTo}...` : `Add a comment...`}
           onChange={(e) => {
-            commentContent = e.target.value;
+            setCommentContent(e.target.value);
           }}
-        >
-          {commentContent}
-        </textarea>
+          value={commentContent}
+        ></textarea>
         <button
           className="send_comment-btn"
           onClick={(e) => handleAddComment(commentContent)}

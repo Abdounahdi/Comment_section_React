@@ -247,6 +247,7 @@ body {
   font-size: 1.5rem;
   color: hsl(211, 10%, 45%);
   line-height: 2rem;
+  word-break: break-all;
 }
 .comment_section
   .comments_container
