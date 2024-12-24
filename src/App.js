@@ -83,6 +83,8 @@ let data = {
 
 export default function App() {
   const [usersData, setUsersData] = useState(data.comments);
+  const [addReply, setAddReply] = useState(null);
+
   console.log(usersData);
   return (
     <div className="comment_section">
@@ -106,14 +108,25 @@ export default function App() {
                     {comment.user.username === data.currentUser.username ? (
                       <UserBtns />
                     ) : (
-                      <ReplyBtn />
+                      <ReplyBtn onReply={setAddReply} id={comment.id} />
                     )}
                   </CommentHeader>
 
                   <p className="comment_text">{comment.content}</p>
                 </CommentInner>
               </Comment>
-
+              {addReply === comment.id ? (
+                <AddComment
+                  currentUser={data.currentUser}
+                  onAddComment={setUsersData}
+                  isReply={true}
+                  commentId={addReply}
+                  onAdded={setAddReply}
+                  replyTo={comment.user.username}
+                />
+              ) : (
+                ""
+              )}
               <RepliesContainer>
                 {comment.replies
                   .sort((a, b) => b.score - a.score)
@@ -133,11 +146,13 @@ export default function App() {
                           {reply.user.username === data.currentUser.username ? (
                             <UserBtns />
                           ) : (
-                            <ReplyBtn />
+                            ""
                           )}
                         </CommentHeader>
 
-                        <p className="comment_text">{reply.content}</p>
+                        <p className="comment_text">
+                          {formatComment(reply.content)}
+                        </p>
                       </CommentInner>
                     </Comment>
                   ))}
@@ -162,4 +177,19 @@ function CommentInner({ children }) {
 
 function RepliesContainer({ children }) {
   return <div className="replies_container">{children}</div>;
+}
+
+function formatComment(comment) {
+  if (comment[0] === "@") {
+    return (
+      <>
+        <span className="reply_tag">
+          {comment.slice(0, comment.search(" "))}
+        </span>
+        {comment.slice(comment.search(" "))}
+      </>
+    );
+  } else {
+    return comment;
+  }
 }

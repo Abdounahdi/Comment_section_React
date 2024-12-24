@@ -1,15 +1,14 @@
 export function Score({ score, onChangeScore, id }) {
-  
   function handleAddScore() {
     onChangeScore((comments) =>
       comments.map((comment) =>
         comment.id === id
           ? { ...comment, score: comment.score + 1 }
-          : hachem(comment)
+          : serachReplies(comment)
       )
     );
 
-    function hachem(comment) {
+    function serachReplies(comment) {
       let newReplies = comment.replies.map((reply) =>
         reply.id === id ? { ...reply, score: reply.score + 1 } : { ...reply }
       );
@@ -22,11 +21,11 @@ export function Score({ score, onChangeScore, id }) {
       comments.map((comment) =>
         comment.id === id
           ? { ...comment, score: comment.score - 1 }
-          : hachem(comment)
+          : serachReplies(comment)
       )
     );
 
-    function hachem(comment) {
+    function serachReplies(comment) {
       let newReplies = comment.replies.map((reply) =>
         reply.id === id ? { ...reply, score: reply.score - 1 } : { ...reply }
       );
