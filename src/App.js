@@ -2,8 +2,12 @@ import { AddComment } from "./Components/AddComment";
 import { CommentHeader } from "./Components/CommentHeader";
 import { Score } from "./Components/Score";
 import { ReplyBtn } from "./Components/ReplyBtn";
-import { UserBtns } from "./Components/UserBtns";
 import { useState } from "react";
+import { EditCommentBtn } from "./Components/UserBtns";
+import { OpenDeleteModalBtn } from "./Components/DeleteModal";
+import { KeepCommentBtn } from "./KeepCommentBtn";
+import { DeleteCommentBtn } from "./Components/UserBtns";
+import { DeleteModal } from "./Components/DeleteModal";
 
 let data = {
   currentUser: {
@@ -84,84 +88,147 @@ let data = {
 export default function App() {
   const [usersData, setUsersData] = useState(data.comments);
   const [addReply, setAddReply] = useState(null);
+  const [toDelete, setToDelete] = useState(null);
+  const [toEdit, setToEdit] = useState(null);
+  const [checkUpdate, setcheckUpdate] = useState(true);
+
+  let updatedContent;
 
   console.log(usersData);
   return (
-    <div className="comment_section">
-      <div className="comments_container">
-        {usersData
-          .sort((a, b) => b.score - a.score)
-          .map((comment) => (
-            <div className="comment_replies-container" key={comment.id}>
-              <Comment>
-                <Score
-                  score={comment.score}
-                  onChangeScore={setUsersData}
-                  id={comment.id}
-                />
+    <>
+      <div className="comment_section">
+        <div className="comments_container">
+          {usersData
+            .sort((a, b) => b.score - a.score)
+            .map((comment) => (
+              <div className="comment_replies-container" key={comment.id}>
+                <Comment>
+                  <Score
+                    score={comment.score}
+                    onChangeScore={setUsersData}
+                    id={comment.id}
+                  />
 
-                <CommentInner>
-                  <CommentHeader
-                    comment={comment}
+                  <CommentInner>
+                    <CommentHeader
+                      comment={comment}
+                      currentUser={data.currentUser}
+                    >
+                      {comment.user.username === data.currentUser.username ? (
+                        <div className="btns_container">
+                          <OpenDeleteModalBtn
+                            onDelete={setToDelete}
+                            id={comment.id}
+                          />
+                          <EditCommentBtn
+                            onEdit={setToEdit}
+                            id={toEdit}
+                            currentId={comment.id}
+                            newContent={updatedContent}
+                            updateComment={setUsersData}
+                            checkUpdate={checkUpdate}
+                          />
+                        </div>
+                      ) : (
+                        <ReplyBtn onReply={setAddReply} id={comment.id} />
+                      )}
+                    </CommentHeader>
+
+                    <CommentContent
+                      comment={comment}
+                      id={toEdit}
+                      updatedContent={updatedContent}
+                      updateComment={setUsersData}
+                      setCheck={setcheckUpdate}
+                    />
+                  </CommentInner>
+                </Comment>
+
+                {addReply === comment.id ? (
+                  <AddComment
                     currentUser={data.currentUser}
-                  >
-                    {comment.user.username === data.currentUser.username ? (
-                      <UserBtns />
-                    ) : (
-                      <ReplyBtn onReply={setAddReply} id={comment.id} />
-                    )}
-                  </CommentHeader>
+                    onAddComment={setUsersData}
+                    isReply={true}
+                    commentId={addReply}
+                    onAdded={setAddReply}
+                    replyTo={comment.user.username}
+                  />
+                ) : (
+                  ""
+                )}
 
-                  <p className="comment_text">{comment.content}</p>
-                </CommentInner>
-              </Comment>
-              {addReply === comment.id ? (
-                <AddComment
-                  currentUser={data.currentUser}
-                  onAddComment={setUsersData}
-                  isReply={true}
-                  commentId={addReply}
-                  onAdded={setAddReply}
-                  replyTo={comment.user.username}
-                />
-              ) : (
-                ""
-              )}
-              <RepliesContainer>
-                {comment.replies
-                  .sort((a, b) => b.score - a.score)
-                  .map((reply) => (
-                    <Comment key={reply.id}>
-                      <Score
-                        score={reply.score}
-                        onChangeScore={setUsersData}
-                        id={reply.id}
-                      />
+                <RepliesContainer>
+                  {comment.replies
+                    .sort((a, b) => b.score - a.score)
+                    .map((reply) => (
+                      <Comment key={reply.id}>
+                        <Score
+                          score={reply.score}
+                          onChangeScore={setUsersData}
+                          id={reply.id}
+                        />
 
-                      <CommentInner>
-                        <CommentHeader
-                          comment={reply}
-                          currentUser={data.currentUser}
-                        >
-                          {reply.user.username === data.currentUser.username ? (
-                            <UserBtns />
-                          ) : (
-                            ""
-                          )}
-                        </CommentHeader>
+                        <CommentInner>
+                          <CommentHeader
+                            comment={reply}
+                            currentUser={data.currentUser}
+                          >
+                            {reply.user.username ===
+                            data.currentUser.username ? (
+                              <div className="btns_container">
+                                <OpenDeleteModalBtn
+                                  onDelete={setToDelete}
+                                  id={reply.id}
+                                />
+                                <EditCommentBtn
+                                  newContent={updatedContent}
+                                  onEdit={setToEdit}
+                                  id={toEdit}
+                                  currentId={reply.id}
+                                  updateComment={setUsersData}
+                                  checkUpdate={checkUpdate}
+                                />
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </CommentHeader>
 
-                        <p className="comment_text">
-                          {formatComment(reply.content)}
-                        </p>
-                      </CommentInner>
-                    </Comment>
-                  ))}
-              </RepliesContainer>
-            </div>
-          ))}
+                          <CommentContent
+                            username={comment.user.username}
+                            comment={reply}
+                            id={toEdit}
+                            updatedContent={updatedContent}
+                            updateComment={setUsersData}
+                            isReply={true}
+                            setCheck={setcheckUpdate}
+                          />
+                        </CommentInner>
+                      </Comment>
+                    ))}
+                </RepliesContainer>
+              </div>
+            ))}
+        </div>
+        <AddComment
+          currentUser={data.currentUser}
+          onAddComment={setUsersData}
+        />
       </div>
-      <AddComment currentUser={data.currentUser} onAddComment={setUsersData} />
-    </div>
+      {toDelete ? (
+        <DeleteModal>
+          <KeepCommentBtn onCancel={setToDelete} />
+          <DeleteCommentBtn
+            id={toDelete}
+            onDeleteComment={setUsersData}
+            closeModal={setToDelete}
+          />
+        </DeleteModal>
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 
@@ -179,17 +246,51 @@ function RepliesContainer({ children }) {
   return <div className="replies_container">{children}</div>;
 }
 
-function formatComment(comment) {
-  if (comment[0] === "@") {
-    return (
-      <>
-        <span className="reply_tag">
-          {comment.slice(0, comment.search(" "))}
-        </span>
-        {comment.slice(comment.search(" "))}
-      </>
-    );
-  } else {
-    return comment;
-  }
+function CommentContent({
+  comment,
+  id,
+  isReply = false,
+  updateComment,
+  username,
+  setCheck,
+}) {
+  let text = comment.content;
+  return !(id === comment.id) ? (
+    <p className="comment_text">
+      {isReply ? <span className="reply_tag"> @ {username} </span> : ""}
+      {comment.content}
+    </p>
+  ) : (
+    <textarea
+      name="input"
+      className="input_comment"
+      placeholder="Add a comment..."
+      defaultValue={text}
+      onChange={(e) => {
+        text = e.target.value.trim().length !== 0 ? e.target.value : "" ;
+        setCheck(text!== "")
+        updateComment((comments) =>
+          comments.map((Comment) => {
+            if (Comment.id === comment.id) {
+              return { ...Comment, content: text };
+            } else {
+              return {
+                ...Comment,
+                replies: Comment.replies.map((reply) => {
+                  if (reply.id === id) {
+                    return { ...reply, content: text };
+                  } else {
+                    return reply;
+                  }
+                }),
+              };
+            }
+          })
+        );
+        // console.log(updatedContent);
+      }}
+    />
+    //   {comment.content}
+    // </textarea>
+  );
 }

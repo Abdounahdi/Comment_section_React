@@ -36,7 +36,7 @@ export function AddComment({
                   ...comment.replies,
                   {
                     id: Date.now(),
-                    content: `@${replyTo} ` + commentContent,
+                    content: commentContent,
                     createdAt: `Today at ${new Date()
                       .getHours()
                       .toString()
