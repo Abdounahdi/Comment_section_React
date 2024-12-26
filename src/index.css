@@ -509,3 +509,48 @@ textarea::placeholder {
 .apply-shake {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
+
+.error_message {
+  background-color: hsl(0, 0%, 100%);
+  font-size: 1.5rem;
+  color: black;
+  box-shadow: rgba(0, 0, 0, 0.3) 1.95px 1.95px 2.6px;
+  line-height: 2rem;
+  width: 30rem;
+  padding: 1.5rem;
+  font-style: italic;
+  text-align: center;
+  border-radius: 1rem;
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  /* transition: all 0.3s ease-in-out; */
+  animation: drop 0.3s ease forwards ,  back  0.3s 4s ease-in-out forwards;
+}
+
+@keyframes drop {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, 40%);
+  }
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes back {
+  100% {
+    transform: translate(-50%, -150%);
+  }
+}
+
+.error_message .empty {
+  color: hsl(358, 100%, 49%);
+}
+
+.error_message .emoji {
+  font-style: normal;
+}

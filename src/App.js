@@ -91,6 +91,7 @@ export default function App() {
   const [toDelete, setToDelete] = useState(null);
   const [toEdit, setToEdit] = useState(null);
   const [checkUpdate, setcheckUpdate] = useState(true);
+  const [error, setError] = useState(false);
 
   let updatedContent;
 
@@ -153,7 +154,7 @@ export default function App() {
                     commentId={addReply}
                     onAdded={setAddReply}
                     replyTo={comment.user.username}
-                    // CommentTime={CommentTime}
+                    messageIsEmpty={setError}
                   />
                 ) : (
                   ""
@@ -215,6 +216,7 @@ export default function App() {
         <AddComment
           currentUser={data.currentUser}
           onAddComment={setUsersData}
+          messageIsEmpty={setError}
         />
       </div>
       {toDelete ? (
@@ -229,6 +231,7 @@ export default function App() {
       ) : (
         ""
       )}
+      {error ? <ErrorNotif /> : ""}
     </>
   );
 }
@@ -245,4 +248,13 @@ function CommentInner({ children }) {
 
 function RepliesContainer({ children }) {
   return <div className="replies_container">{children}</div>;
+}
+
+function ErrorNotif() {
+  return (
+    <div className="error_message">
+      <span className="emoji">🚨 </span>
+      You've entered an <span className="empty">empty </span>message !
+    </div>
+  );
 }

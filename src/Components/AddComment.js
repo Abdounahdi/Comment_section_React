@@ -7,6 +7,7 @@ export function AddComment({
   commentId,
   onAdded,
   replyTo,
+  messageIsEmpty,
 }) {
   const [commentContent, setCommentContent] = useState("");
 
@@ -49,6 +50,13 @@ export function AddComment({
         onAdded(null);
       }
       setCommentContent("");
+    } else {
+      console.error("empty comment ! 💥💥💥💥💥");
+      messageIsEmpty(true);
+      const hachem = setInterval(() => {
+        messageIsEmpty(false)
+        clearInterval(hachem)
+      }, 5000);
     }
   }
 
@@ -64,6 +72,7 @@ export function AddComment({
             setCommentContent(e.target.value);
           }}
           value={commentContent}
+          onClick={()=>messageIsEmpty(false)}
         ></textarea>
         <button
           className="send_comment-btn"
