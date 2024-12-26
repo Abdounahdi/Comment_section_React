@@ -1,25 +1,4 @@
 export function EditCommentBtn({ onEdit, id, currentId, checkUpdate }) {
-  // function handleUpdateComment(newContent) {
-  //   console.log(newContent)
-  //   updateComment((comments) =>
-  //     comments.map((comment) => {
-  //       if (comment.id === currentId) {
-  //         return { ...comment, content: newContent };
-  //       } else {
-  //         let newReplies = comment.replies.map((reply) => {
-  //           if (reply.id === currentId) {
-  //             return { ...reply, content: newContent };
-  //           } else {
-  //             return reply;
-  //           }
-  //         });
-  //         return { ...comment, replies: newReplies };
-  //       }
-  //     })
-  //   );
-  //   onEdit(null);
-  // }
-
   return !(id === currentId) ? (
     <button className="btn edit_btn " onClick={() => onEdit(currentId)}>
       <svg className="edit-svg" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +12,6 @@ export function EditCommentBtn({ onEdit, id, currentId, checkUpdate }) {
   ) : (
     <button
       className="sumbit_btn"
-      // onClick={() => handleUpdateComment(newContent)}
       onClick={() => (checkUpdate ? onEdit(null) : "")}
     >
       UPDATE
@@ -41,17 +19,11 @@ export function EditCommentBtn({ onEdit, id, currentId, checkUpdate }) {
   );
 }
 
+
 export function DeleteCommentBtn({ id, onDeleteComment, closeModal }) {
   function handleDeleteComment(id) {
     closeModal(null);
     onDeleteComment((comments) =>
-      // comments.filter((comment) => {
-      //   if (comment.id !== id) {
-      //     let newReplies = comment.replies.filter((reply) => reply.id !== id);
-      //     return { ...comment, replies: newReplies };
-      //   } else {
-      //   }
-      // })
       comments.filter((comment) => comment.id !== id)
     );
     onDeleteComment((comments) =>

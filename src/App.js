@@ -2,41 +2,13 @@ import { AddComment } from "./Components/AddComment";
 import { CommentHeader } from "./Components/CommentHeader";
 import { Score } from "./Components/Score";
 import { ReplyBtn } from "./Components/ReplyBtn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { EditCommentBtn } from "./Components/UserBtns";
 import { OpenDeleteModalBtn } from "./Components/DeleteModal";
 import { KeepCommentBtn } from "./Components/KeepCommentBtn";
 import { DeleteCommentBtn } from "./Components/UserBtns";
 import { DeleteModal } from "./Components/DeleteModal";
 import { CommentContent } from "./Components/CommentContent";
-
-// import TimeAgo from "javascript-time-ago";
-// import ReactTimeAgo from "react-time-ago";
-
-// import en from "javascript-time-ago/locale/en";
-// import ru from "javascript-time-ago/locale/ru";
-
-// TimeAgo.addDefaultLocale(en);
-// TimeAgo.addLocale(ru);
-
-// const CommentTime = () => {
-//   const MINUTE_MS = 60000;
-//   let countMinutes = 1000;
-//   let count = 1;
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       countMinutes *= 60 * count;
-//       count++;
-//     }, MINUTE_MS);
-
-//     return () => clearInterval(interval);
-//   }, [countMinutes]);
-
-//   const targetDate = new Date() - countMinutes;
-
-//   return <ReactTimeAgo date={targetDate} locale="en-US" />;
-// };
 
 let data = {
   currentUser: {
@@ -110,7 +82,6 @@ let data = {
     },
   ],
 };
-// console.log(Data);
 
 //SEP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -244,7 +215,6 @@ export default function App() {
         <AddComment
           currentUser={data.currentUser}
           onAddComment={setUsersData}
-          // CommentTime={CommentTime}
         />
       </div>
       {toDelete ? (

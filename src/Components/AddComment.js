@@ -7,9 +7,7 @@ export function AddComment({
   commentId,
   onAdded,
   replyTo,
-  CommentTime,
 }) {
-
   const [commentContent, setCommentContent] = useState("");
 
   function handleAddComment(commentContent) {
@@ -20,14 +18,7 @@ export function AddComment({
           {
             id: Date.now(),
             content: commentContent.trim(),
-            createdAt: `Today at ${new Date()
-              .getHours()
-              .toString()
-              .padStart(2, "0")}:${new Date()
-              .getMinutes()
-              .toString()
-              .padEnd(2, "0")}`,
-            // createdAt: <CommentTime />,
+            createdAt: dateNowFormated(),
             score: 0,
             user: currentUser,
             replies: [],
@@ -44,14 +35,7 @@ export function AddComment({
                   {
                     id: Date.now(),
                     content: commentContent.trim(),
-                    createdAt: `Today at ${new Date()
-                      .getHours()
-                      .toString()
-                      .padStart(2, "0")}:${new Date()
-                      .getMinutes()
-                      .toString()
-                      .padEnd(2, "0")}`,
-                    // createdAt: <CommentTime />,
+                    createdAt: dateNowFormated(),
                     score: 0,
                     user: currentUser,
                   },
@@ -90,4 +74,11 @@ export function AddComment({
       </div>
     </div>
   );
+}
+
+function dateNowFormated() {
+  return `Today at ${new Date()
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${new Date().getMinutes().toString().padEnd(2, "0")}`;
 }
